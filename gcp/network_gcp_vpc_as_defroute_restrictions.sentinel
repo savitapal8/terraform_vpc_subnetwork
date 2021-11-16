@@ -1,0 +1,70 @@
+# This policy uses the Sentinel tfplan/v2 import to require that
+# all GCE resources following all the policies related to ip restriction
+
+import "strings"
+import "types"
+import "tfplan-functions" as plan
+import "generic-functions" as gen
+
+//**********************Variables to be used***********************************
+selected_node = null
+messages = {}
+
+//******Resource Types internal IP Param Map***********************************
+resourceTypesInternalIPMap = {	
+	"google_dataproc_cluster": {
+		"key":   "cluster_config.0.gce_cluster_config.0.internal_ip_only",
+	},
+
+}
+
+//******Following function is being used to validate the internal ip settings**
+//as per the GCP resource's requirement 
+//address is the key and rc is the value of resource_changes in the mock of tfplan-v2 file
+
+check_internal_ip = func(address, rc) {
+
+	key = resourceTypesInternalIPMap[rc.type]["key"]
+	selected_node = plan.evaluate_attribute(rc, key)
+
+	if types.type_of(selected_node) is "null" {
+		return plan.to_string(address) + " does not have " + key +" defined"
+	} else {
+		if not selected_node {					
+			return plan.to_string(address) +  " service will be accessible through internal ip only but it is disabled here, please set value true to make it enable"			
+		} else {
+			return null
+		}
+	}
+}
+
+//*******************validating internal ip only*******************************
+messages_ip_internal = {}
+
+for resourceTypesInternalIPMap as key_address, _ {
+	# Get all the instances on the basis of type
+	allResources = plan.find_resources(key_address)
+	for allResources as address, rc {
+		message = null
+		message = check_internal_ip(address, rc)
+
+		if types.type_of(message) is not "null" {
+
+			gen.create_sub_main_key_list(messages, messages_ip_internal, address)
+			
+			append(messages_ip_internal[address],message)
+			append(messages[address],message)
+		} 	
+	}
+}
+//*****************************************************************************
+
+
+GCP_INTERNAL_IP = rule {
+ 	length(messages_ip_internal) is 0 
+}
+
+# Main rule
+print(messages)
+
+main = rule { GCP_INTERNAL_IP }
