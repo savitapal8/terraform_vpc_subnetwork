@@ -9,6 +9,6 @@ resource "google_compute_subnetwork" "subnet-with-logging" {
   log_config {
     aggregation_interval = "INTERVAL_10_MIN"
     flow_sampling        = null
-    metadata             = null
+    metadata             = "EXCLUDE_ALL_METADATA"
   } 
 }
