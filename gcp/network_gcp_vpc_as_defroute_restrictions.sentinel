@@ -1,5 +1,5 @@
 # This policy uses the Sentinel tfplan/v2 import to require that
-# all GCE resources following all the policies related to ip restriction
+# all GCE resources following all the policies related to vpc
 
 import "strings"
 import "types"
@@ -10,61 +10,83 @@ import "generic-functions" as gen
 selected_node = null
 messages = {}
 
-//******Resource Types internal IP Param Map***********************************
-resourceTypesInternalIPMap = {	
-	"google_dataproc_cluster": {
-		"key":   "cluster_config.0.gce_cluster_config.0.internal_ip_only",
-	},
+# Get all the instances on the basis of type
+allResources = plan.find_resources("google_compute_network")
 
-}
-
-//******Following function is being used to validate the internal ip settings**
+//*****************************Methods*****************************************
 //as per the GCP resource's requirement 
 //address is the key and rc is the value of resource_changes in the mock of tfplan-v2 file
 
-check_internal_ip = func(address, rc) {
+//*****Following function is being used to validate the settings of auto_create_subnetworks mode
+check_auto_create_subnets = func(address, rc) {
 
-	key = resourceTypesInternalIPMap[rc.type]["key"]
+	key = "auto_create_subnetworks"
 	selected_node = plan.evaluate_attribute(rc, key)
-
-	if types.type_of(selected_node) is "null" {
-		return plan.to_string(address) + " does not have " + key +" defined"
+	
+	if selected_node {					
+		return plan.to_string(address) +  " no auto subnet creation mode is allowed, please mark its value false to have custom mode."			
 	} else {
-		if not selected_node {					
-			return plan.to_string(address) +  " service will be accessible through internal ip only but it is disabled here, please set value true to make it enable"			
-		} else {
-			return null
-		}
+		return null
 	}
 }
 
-//*******************validating internal ip only*******************************
-messages_ip_internal = {}
+//*****Following function is being used to validate the settings of delete_default_routes_on_create mode
+check_delate_default_routes_on_create = func(address, rc) {
 
-for resourceTypesInternalIPMap as key_address, _ {
-	# Get all the instances on the basis of type
-	allResources = plan.find_resources(key_address)
-	for allResources as address, rc {
-		message = null
-		message = check_internal_ip(address, rc)
-
-		if types.type_of(message) is not "null" {
-
-			gen.create_sub_main_key_list(messages, messages_ip_internal, address)
-			
-			append(messages_ip_internal[address],message)
-			append(messages[address],message)
-		} 	
+	key = "delete_default_routes_on_create"
+	selected_node = plan.evaluate_attribute(rc, key)
+	
+	if selected_node {					
+		return null
+	} else {		
+		return plan.to_string(address) +  " no default routes are allowed, please mark its value true."			
 	}
+}
+
+//*******************validating auto create subnets mode***********************
+messages_auto_create_subnets = {}
+
+for allResources as address, rc {
+	message = null
+	message = check_auto_create_subnets(address, rc)
+
+	if types.type_of(message) is not "null" {
+
+		gen.create_sub_main_key_list(messages, messages_auto_create_subnets, address)
+		
+		append(messages_auto_create_subnets[address],message)
+		append(messages[address],message)
+	} 	
+}
+//*****************************************************************************
+
+//*******************validating delate default routes on create mode***********************
+messages_delate_default_routes = {}
+
+for allResources as address, rc {
+	message = null
+	message = check_delate_default_routes_on_create(address, rc)
+
+	if types.type_of(message) is not "null" {
+
+		gen.create_sub_main_key_list(messages, messages_delate_default_routes, address)
+		
+		append(messages_delate_default_routes[address],message)
+		append(messages[address],message)
+	} 	
 }
 //*****************************************************************************
 
 
-GCP_INTERNAL_IP = rule {
- 	length(messages_ip_internal) is 0 
+GCP_VPC_NODEFAULT = rule {
+ 	length(messages_auto_create_subnets) is 0 
+}
+
+GCP_VPC_NOWAN = rule {
+ 	length(messages_delate_default_routes) is 0 
 }
 
 # Main rule
 print(messages)
 
-main = rule { GCP_INTERNAL_IP }
+main = rule { GCP_VPC_NODEFAULT and GCP_VPC_NOWAN }

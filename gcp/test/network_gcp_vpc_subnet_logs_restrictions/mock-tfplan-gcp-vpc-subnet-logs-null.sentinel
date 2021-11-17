@@ -1,0 +1,394 @@
+terraform_version = "1.0.11"
+
+planned_values = {
+	"outputs": {},
+	"resources": {
+		"google_compute_network.vpc_network": {
+			"address":        "google_compute_network.vpc_network",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "",
+			"name":           "vpc_network",
+			"provider_name":  "registry.terraform.io/hashicorp/google",
+			"tainted":        false,
+			"type":           "google_compute_network",
+			"values": {
+				"auto_create_subnetworks":         true,
+				"delete_default_routes_on_create": false,
+				"description":                     null,
+				"mtu":                             1460,
+				"name":                            "vpc-network",
+				"project":                         "my-project-name",
+				"timeouts":                        null,
+			},
+		},
+		"google_compute_subnetwork.subnet-with-logging": {
+			"address":        "google_compute_subnetwork.subnet-with-logging",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "",
+			"name":           "subnet-with-logging",
+			"provider_name":  "registry.terraform.io/hashicorp/google",
+			"tainted":        false,
+			"type":           "google_compute_subnetwork",
+			"values": {
+				"description":      null,
+				"ip_cidr_range":    "10.2.0.0/16",
+				"ipv6_access_type": null,
+				"log_config": [
+					{
+						"aggregation_interval": "INTERVAL_10_MIN",
+						"filter_expr":          "true",
+						"flow_sampling":        0.5,
+						"metadata":             "INCLUDE_ALL_METADATA",
+						"metadata_fields":      null,
+					},
+				],
+				"name": "log-subnetwork",
+				"private_ip_google_access": null,
+				"region":                   "us-central1",
+				"role":                     null,
+				"timeouts":                 null,
+			},
+		},
+	},
+}
+
+variables = {
+	"access_token": {
+		"name":  "access_token",
+		"value": "REDACTED_SENSITIVE",
+	},
+}
+
+resource_changes = {
+	"google_compute_network.vpc_network": {
+		"address": "google_compute_network.vpc_network",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"auto_create_subnetworks":         true,
+				"delete_default_routes_on_create": false,
+				"description":                     null,
+				"mtu":                             1460,
+				"name":                            "vpc-network",
+				"project":                         "my-project-name",
+				"timeouts":                        null,
+			},
+			"after_unknown": {
+				"gateway_ipv4": true,
+				"id":           true,
+				"routing_mode": true,
+				"self_link":    true,
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "",
+		"name":           "vpc_network",
+		"provider_name":  "registry.terraform.io/hashicorp/google",
+		"type":           "google_compute_network",
+	},
+	"google_compute_subnetwork.subnet-with-logging": {
+		"address": "google_compute_subnetwork.subnet-with-logging",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"description":      null,
+				"ip_cidr_range":    "10.2.0.0/16",
+				"ipv6_access_type": null,
+				"log_config": [
+					{
+						"aggregation_interval": "INTERVAL_10_MIN",
+						"filter_expr":          "true",
+						"flow_sampling":        0.5,
+						"metadata":             "INCLUDE_ALL_METADATA",
+						"metadata_fields":      null,
+					},
+				],
+				"name": "log-subnetwork",
+				"private_ip_google_access": null,
+				"region":                   "us-central1",
+				"role":                     null,
+				"timeouts":                 null,
+			},
+			"after_unknown": {
+				"creation_timestamp":   true,
+				"external_ipv6_prefix": true,
+				"fingerprint":          true,
+				"gateway_address":      true,
+				"id":                   true,
+				"ipv6_cidr_range":      true,
+				"log_config": [
+					{},
+				],
+				"network":                    true,
+				"private_ipv6_google_access": true,
+				"project":                    true,
+				"purpose":                    true,
+				"secondary_ip_range":         true,
+				"self_link":                  true,
+				"stack_type":                 true,
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "",
+		"name":           "subnet-with-logging",
+		"provider_name":  "registry.terraform.io/hashicorp/google",
+		"type":           "google_compute_subnetwork",
+	},
+}
+
+output_changes = {}
+
+raw = {
+	"configuration": {
+		"provider_config": {
+			"google": {
+				"expressions": {
+					"access_token": {
+						"references": [
+							"var.access_token",
+						],
+					},
+					"user_project_override": {
+						"constant_value": true,
+					},
+				},
+				"name": "google",
+			},
+		},
+		"root_module": {
+			"resources": [
+				{
+					"address": "google_compute_network.vpc_network",
+					"expressions": {
+						"auto_create_subnetworks":         {},
+						"delete_default_routes_on_create": {},
+						"mtu": {
+							"constant_value": 1460,
+						},
+						"name": {
+							"constant_value": "vpc-network",
+						},
+						"project": {
+							"constant_value": "my-project-name",
+						},
+					},
+					"mode":                "managed",
+					"name":                "vpc_network",
+					"provider_config_key": "google",
+					"schema_version":      0,
+					"type":                "google_compute_network",
+				},
+				{
+					"address": "google_compute_subnetwork.subnet-with-logging",
+					"expressions": {
+						"ip_cidr_range": {
+							"constant_value": "10.2.0.0/16",
+						},
+						"log_config": [
+							{
+								"aggregation_interval": {
+									"constant_value": "INTERVAL_10_MIN",
+								},
+								"flow_sampling": {},
+								"metadata":      {},
+							},
+						],
+						"name": {
+							"constant_value": "log-subnetwork",
+						},
+						"network": {
+							"references": [
+								"google_compute_network.vpc_network.id",
+								"google_compute_network.vpc_network",
+							],
+						},
+						"region": {
+							"constant_value": "us-central1",
+						},
+					},
+					"mode":                "managed",
+					"name":                "subnet-with-logging",
+					"provider_config_key": "google",
+					"schema_version":      0,
+					"type":                "google_compute_subnetwork",
+				},
+			],
+			"variables": {
+				"access_token": {
+					"default":     "ya29.a0ARrdaM_v0peuacIhfwmUvKhYCCmkfBC382ptCm1qYp6-vccNxNw3EJDbN9Vki8z-J2LIi2VsxdVtsztY57R7zsbX8Usdz6O6R3B-HVZHjfKNXQ51gRBQFgeNtXlVvzKK4v8-jsFasOwEoQKleCq3Yl3eyWw2oeTNQjHx",
+					"description": "access_token",
+					"sensitive":   true,
+				},
+			},
+		},
+	},
+	"format_version": "0.2",
+	"planned_values": {
+		"root_module": {
+			"resources": [
+				{
+					"address":          "google_compute_network.vpc_network",
+					"mode":             "managed",
+					"name":             "vpc_network",
+					"provider_name":    "registry.terraform.io/hashicorp/google",
+					"schema_version":   0,
+					"sensitive_values": {},
+					"type":             "google_compute_network",
+					"values": {
+						"auto_create_subnetworks":         true,
+						"delete_default_routes_on_create": false,
+						"description":                     null,
+						"mtu":                             1460,
+						"name":                            "vpc-network",
+						"project":                         "my-project-name",
+						"timeouts":                        null,
+					},
+				},
+				{
+					"address":        "google_compute_subnetwork.subnet-with-logging",
+					"mode":           "managed",
+					"name":           "subnet-with-logging",
+					"provider_name":  "registry.terraform.io/hashicorp/google",
+					"schema_version": 0,
+					"sensitive_values": {
+						"log_config": [
+							{},
+						],
+						"secondary_ip_range": [],
+					},
+					"type": "google_compute_subnetwork",
+					"values": {
+						"description":      null,
+						"ip_cidr_range":    "10.2.0.0/16",
+						"ipv6_access_type": null,
+						"log_config": [
+							{
+								"aggregation_interval": "INTERVAL_10_MIN",
+								"filter_expr":          "true",
+								"flow_sampling":        0.5,
+								"metadata":             "INCLUDE_ALL_METADATA",
+								"metadata_fields":      null,
+							},
+						],
+						"name": "log-subnetwork",
+						"private_ip_google_access": null,
+						"region":                   "us-central1",
+						"role":                     null,
+						"timeouts":                 null,
+					},
+				},
+			],
+		},
+	},
+	"resource_changes": [
+		{
+			"address": "google_compute_network.vpc_network",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"auto_create_subnetworks":         true,
+					"delete_default_routes_on_create": false,
+					"description":                     null,
+					"mtu":                             1460,
+					"name":                            "vpc-network",
+					"project":                         "my-project-name",
+					"timeouts":                        null,
+				},
+				"after_sensitive": {},
+				"after_unknown": {
+					"gateway_ipv4": true,
+					"id":           true,
+					"routing_mode": true,
+					"self_link":    true,
+				},
+				"before":           null,
+				"before_sensitive": false,
+			},
+			"mode":          "managed",
+			"name":          "vpc_network",
+			"provider_name": "registry.terraform.io/hashicorp/google",
+			"type":          "google_compute_network",
+		},
+		{
+			"address": "google_compute_subnetwork.subnet-with-logging",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"description":      null,
+					"ip_cidr_range":    "10.2.0.0/16",
+					"ipv6_access_type": null,
+					"log_config": [
+						{
+							"aggregation_interval": "INTERVAL_10_MIN",
+							"filter_expr":          "true",
+							"flow_sampling":        0.5,
+							"metadata":             "INCLUDE_ALL_METADATA",
+							"metadata_fields":      null,
+						},
+					],
+					"name": "log-subnetwork",
+					"private_ip_google_access": null,
+					"region":                   "us-central1",
+					"role":                     null,
+					"timeouts":                 null,
+				},
+				"after_sensitive": {
+					"log_config": [
+						{},
+					],
+					"secondary_ip_range": [],
+				},
+				"after_unknown": {
+					"creation_timestamp":   true,
+					"external_ipv6_prefix": true,
+					"fingerprint":          true,
+					"gateway_address":      true,
+					"id":                   true,
+					"ipv6_cidr_range":      true,
+					"log_config": [
+						{},
+					],
+					"network":                    true,
+					"private_ipv6_google_access": true,
+					"project":                    true,
+					"purpose":                    true,
+					"secondary_ip_range":         true,
+					"self_link":                  true,
+					"stack_type":                 true,
+				},
+				"before":           null,
+				"before_sensitive": false,
+			},
+			"mode":          "managed",
+			"name":          "subnet-with-logging",
+			"provider_name": "registry.terraform.io/hashicorp/google",
+			"type":          "google_compute_subnetwork",
+		},
+	],
+	"terraform_version": "1.0.11",
+	"variables": {
+		"access_token": {
+			"value": "REDACTED_SENSITIVE",
+		},
+	},
+}

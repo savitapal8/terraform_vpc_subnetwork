@@ -22,12 +22,11 @@ mock "tfplan/v2" {
 
 policy "network_gcp_vpc_as_defroute_restrictions" {
     source = "./network_gcp_vpc_as_defroute_restrictions.sentinel"
-    enforcement_level = "mandatory"
+    enforcement_level = "hard-mandatory"
 }
 
 policy "network_gcp_vpc_subnet_logs_restrictions" {
-    source = "./network_gcp_vpc_subnet_logs_restrictions"
+    source = "./network_gcp_vpc_subnet_logs_restrictions.sentinel"
     enforcement_level = "advisory"
 }
-
 

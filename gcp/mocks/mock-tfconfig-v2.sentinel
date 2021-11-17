@@ -1,0 +1,119 @@
+import "strings"
+
+providers = {
+	"google": {
+		"alias": "",
+		"config": {
+			"access_token": {
+				"references": [
+					"var.access_token",
+				],
+			},
+			"user_project_override": {
+				"constant_value": true,
+			},
+		},
+		"module_address":      "",
+		"name":                "google",
+		"provider_config_key": "google",
+		"version_constraint":  "",
+	},
+}
+
+resources = {
+	"google_compute_network.vpc_network": {
+		"address": "google_compute_network.vpc_network",
+		"config": {
+			"auto_create_subnetworks": {
+				"constant_value": false,
+			},
+			"delete_default_routes_on_create": {
+				"constant_value": true,
+			},
+			"mtu": {
+				"constant_value": 1460,
+			},
+			"name": {
+				"constant_value": "vpc-network",
+			},
+			"project": {
+				"constant_value": "my-project-name",
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "",
+		"name":                "vpc_network",
+		"provider_config_key": "google",
+		"provisioners":        [],
+		"type":                "google_compute_network",
+	},
+	"google_compute_subnetwork.subnet-with-logging": {
+		"address": "google_compute_subnetwork.subnet-with-logging",
+		"config": {
+			"ip_cidr_range": {
+				"constant_value": "10.2.0.0/16",
+			},
+			"log_config": [
+				{
+					"aggregation_interval": {
+						"constant_value": "INTERVAL_10_MIN",
+					},
+					"flow_sampling": {
+						"constant_value": 1,
+					},
+					"metadata": {
+						"constant_value": "INCLUDE_ALL_METADATA",
+					},
+				},
+			],
+			"name": {
+				"constant_value": "log-subnetwork",
+			},
+			"network": {
+				"references": [
+					"google_compute_network.vpc_network.id",
+					"google_compute_network.vpc_network",
+				],
+			},
+			"region": {
+				"constant_value": "us-central1",
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "",
+		"name":                "subnet-with-logging",
+		"provider_config_key": "google",
+		"provisioners":        [],
+		"type":                "google_compute_subnetwork",
+	},
+}
+
+provisioners = {}
+
+variables = {
+	"access_token": {
+		"default":        "ya29.a0ARrdaM_v0peuacIhfwmUvKhYCCmkfBC382ptCm1qYp6-vccNxNw3EJDbN9Vki8z-J2LIi2VsxdVtsztY57R7zsbX8Usdz6O6R3B-HVZHjfKNXQ51gRBQFgeNtXlVvzKK4v8-jsFasOwEoQKleCq3Yl3eyWw2oeTNQjHx",
+		"description":    "access_token",
+		"module_address": "",
+		"name":           "access_token",
+	},
+}
+
+outputs = {}
+
+module_calls = {}
+
+strip_index = func(addr) {
+	s = strings.split(addr, ".")
+	for s as i, v {
+		s[i] = strings.split(v, "[")[0]
+	}
+
+	return strings.join(s, ".")
+}
