@@ -5,4 +5,7 @@ resource "google_compute_subnetwork" "subnet-with-logging" {
   network       = google_compute_network.vpc_network.id
 
   
+  log_config {
+      aggregation_interval = "INTERVAL_10_MIN"
+  }  
 }
