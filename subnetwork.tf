@@ -1,8 +1,3 @@
-provider "google" {
-  user_project_override = true
-  access_token          = var.access_token
-}
-
 resource "google_compute_subnetwork" "subnet-with-logging" {
   name          = "log-subnetwork"
   ip_cidr_range = "10.2.0.0/16"
