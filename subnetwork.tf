@@ -4,9 +4,5 @@ resource "google_compute_subnetwork" "subnet-with-logging" {
   region        = "us-central1"
   network       = google_compute_network.vpc_network.id
 
-  log_config {
-    aggregation_interval = "INTERVAL_10_MIN"
-    flow_sampling        = 1
-    metadata             = "INCLUDE_ALL_METADATA"
-  }
+  
 }
