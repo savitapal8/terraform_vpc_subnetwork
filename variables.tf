@@ -2,5 +2,28 @@ variable "access_token" {
   description = "access_token"
   type        = string
   sensitive   = true
-  default = "ya29.a0ARrdaM_v0peuacIhfwmUvKhYCCmkfBC382ptCm1qYp6-vccNxNw3EJDbN9Vki8z-J2LIi2VsxdVtsztY57R7zsbX8Usdz6O6R3B-HVZHjfKNXQ51gRBQFgeNtXlVvzKK4v8-jsFasOwEoQKleCq3Yl3eyWw2oeTNQjHx"
+}
+
+variable "project_id" {
+  description = "project_id"
+  type        = string
+  default     = "modular-scout-345114"
+}
+
+variable "vpc_name" {
+  description = "us-dev-appid-syst-demo-vpc"
+  type        = string
+  default = "us-dev-appid-syst-demo-vpc"
+}
+
+variable "subnet_name" {
+  description = "us-dev-appid-syst-demo-subnet"
+  type        = string
+  default = "us-dev-appid-syst-demo-subnet"
+}
+
+variable "route_name" {
+  description = "us-dev-appid-syst-demo-route"
+  type        = string
+  default = "us-dev-appid-syst-demo-route"
 }
