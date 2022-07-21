@@ -1,0 +1,6 @@
+project_id = "modular-scout-345114"
+keyring_name = "keyring-17"
+key_name= "cryptokey-17"
+featurestore_name= "terraform57"
+entitytype_name= "terraform57"
+notebooks_env_name = "notebooks-environment57"
